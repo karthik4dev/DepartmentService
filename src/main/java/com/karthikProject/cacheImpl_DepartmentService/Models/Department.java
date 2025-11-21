@@ -3,7 +3,7 @@ package com.karthikProject.cacheImpl_DepartmentService.Models;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+
 
 import java.util.ArrayList;
 

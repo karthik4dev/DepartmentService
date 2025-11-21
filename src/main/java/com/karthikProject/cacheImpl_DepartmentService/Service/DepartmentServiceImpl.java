@@ -1,6 +1,8 @@
 package com.karthikProject.cacheImpl_DepartmentService.Service;
 
+import com.karthikProject.cacheImpl_DepartmentService.Exception.NoDepartmantFoundException;
 import com.karthikProject.cacheImpl_DepartmentService.Models.Department;
+import com.karthikProject.cacheImpl_DepartmentService.Models.DepartmentDTO;
 import com.karthikProject.cacheImpl_DepartmentService.Repositories.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,13 +19,21 @@ public class DepartmentServiceImpl implements DepartmentService{
     DepartmentRepository departmentRepository;
 
     @Override
-    @Cacheable
-    public Department getDepartmentByID(int ID) {
-        return departmentRepository.findById(ID).orElseThrow();
+    public DepartmentDTO mapToDTO(Department department) {
+        return DepartmentDTO.builder().id(department.getId())
+                .name(department.getName())
+                .empId(department.getEmpId())
+                .build();
     }
 
     @Override
-    @Cacheable
+    @Cacheable(cacheNames = "department")
+    public DepartmentDTO getDepartmentByID(int ID) throws NoDepartmantFoundException {
+
+        return mapToDTO(departmentRepository.findById(ID).orElseThrow(() -> new NoDepartmantFoundException("No Department found")));
+    }
+
+    @Override
     public ArrayList<Department> getDepartments() {
         return (ArrayList<Department>) departmentRepository.findAll();
     }

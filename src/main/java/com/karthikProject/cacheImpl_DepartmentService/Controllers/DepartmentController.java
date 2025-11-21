@@ -1,9 +1,10 @@
 package com.karthikProject.cacheImpl_DepartmentService.Controllers;
 
+import com.karthikProject.cacheImpl_DepartmentService.Exception.NoDepartmantFoundException;
 import com.karthikProject.cacheImpl_DepartmentService.Models.Department;
+import com.karthikProject.cacheImpl_DepartmentService.Models.DepartmentDTO;
 import com.karthikProject.cacheImpl_DepartmentService.Service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class DepartmentController {
     DepartmentService departmentService;
 
     @GetMapping("/{id}")
-    Department getDepartmentById(@PathVariable int id){
+    DepartmentDTO getDepartmentById(@PathVariable int id) throws NoDepartmantFoundException {
         return departmentService.getDepartmentByID(id);
     }
 
