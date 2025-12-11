@@ -16,18 +16,21 @@ public class DepartmentController {
     @Autowired
     DepartmentService departmentService;
 
+
     @GetMapping("/{id}")
-    DepartmentDTO getDepartmentById(@PathVariable int id) throws NoDepartmantFoundException {
-        return departmentService.getDepartmentByID(id);
+    public DepartmentDTO getDepartmentById(@PathVariable int id) {
+        Department dept= departmentService.getDepartmentByID(id).orElseThrow(() -> new NoDepartmantFoundException("No department found with this ID"));
+        return departmentService.mapToDTO(dept);
+
     }
 
     @GetMapping("/all")
-    ArrayList<Department> getDepartments(){
+    public ArrayList<Department> getDepartments(){
         return departmentService.getDepartments();
     }
 
     @PostMapping("/save")
-    void save(@RequestBody Department department){
+    public void save(@RequestBody Department department){
         departmentService.save(department);
     }
 
